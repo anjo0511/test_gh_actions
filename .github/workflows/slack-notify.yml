@@ -1,4 +1,5 @@
 on: push
+name: job_name
 jobs:
   slack_msg:
     runs-on: ubuntu-latest
