@@ -4,7 +4,6 @@ jobs:
   slack_msg:
     runs-on: ubuntu-latest
     steps:
-    - name: Making_checkout
     - uses: actions/checkout@v2
     - name: Slack_step
       uses: rtCamp/action-slack-notify@v2
