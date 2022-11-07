@@ -102,7 +102,9 @@ class VaultHandler:
                         if secret not in os.environ:
                             os.environ[secret] = secrets[secret]
                         else:
-                            raise Exception(f"VAULT_PATH DUPLICATED environment in config: {key} => {env[key]} => {secret} ")
+                            raise Exception(
+                                f"VAULT_PATH DUPLICATED environment in config: {key} => {env[key]} => {secret} "
+                            )
                 else:
                     raise Exception(f"VAULT_PATH cannot retrieve secret in config: {key} => {env[key]} ")
 
@@ -110,7 +112,9 @@ class VaultHandler:
                 if key not in os.environ:
                     os.environ[key] = env[key]
                 else:
-                    print(f"DUPLICATED environment in config: {key}. We have already: {os.environ[key]}, Want to set inplace: {env[key]}")
+                    print(
+                        f"DUPLICATED environment in config: {key}. We have already: {os.environ[key]}, Want to set inplace: {env[key]}"
+                    )
                     raise Exception(f"DUPLICATED environment in config: {key}")
             # parse dictionary as string to store in environment variables
             except TypeError as te:
@@ -129,12 +133,16 @@ class VaultHandler:
             dict: _description_
         """
         if not self._check_env_credentials():
-            logger.error("Error while fetching secrets from Vault, role_id and/or secret_id not present as environments variables.")
+            logger.error(
+                "Error while fetching secrets from Vault, role_id and/or secret_id not present as environments variables."
+            )
             raise
 
         client = self._approle_login(verify=verify)
         if not client.token:
-            logger.error("Error while fetching secrets from Vault, cannot instantiate hvac.Client class while using: approle.login")
+            logger.error(
+                "Error while fetching secrets from Vault, cannot instantiate hvac.Client class while using: approle.login"
+            )
             raise
 
         paths = []
@@ -147,7 +155,9 @@ class VaultHandler:
 
             # if keys of dict intersect then return False; no keys can be the same while updating
             if data.keys() & results.keys():
-                logger.error(f"Error while fetching secrets from Vault, duplicate keys fetched: {list(data.keys() & results.keys())}")
+                logger.error(
+                    f"Error while fetching secrets from Vault, duplicate keys fetched: {list(data.keys() & results.keys())}"
+                )
                 raise
 
             results.update(data)
@@ -199,7 +209,9 @@ class VaultHandler:
             # if keys of dict intersect then return False; no keys can be the same while updating
             if dict_with_secrets.keys() & result_dict.keys():
                 duplicated_keys = dict_with_secrets.keys() & result_dict.keys()
-                result_dict = {"errors": (f"""duplicated key while dict update duplicated keys: {list(duplicated_keys)}""")}
+                result_dict = {
+                    "errors": (f"""duplicated key while dict update duplicated keys: {list(duplicated_keys)}""")
+                }
                 return False, result_dict
 
             result_dict.update(dict_with_secrets)
